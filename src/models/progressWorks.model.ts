@@ -9,9 +9,17 @@ class progressWorksModel {
     return new Promise( async (resolve, reject) => {
       try {
         const conn = await db.connect();
-        const result =  await conn.query(`SELECT GETDATE() as 'date_now'`);
+        const query = `
+          SELECT 
+            o.Obras_id as "works_id",
+            o.ROUTE_NAME as "works_name",
+            o.[Tipo de Obra] as "types_works"
+          FROM "obras" o
+        `;
+        const result =  await conn.query(query);
+        // Faltan tablas para retornar los datos correctamente
         const res = {
-          data: result.recordset[0].date_now,
+          data: result.recordset,
           msg: "Hola mundo"
         }
         resolve(res);
