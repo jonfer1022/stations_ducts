@@ -4,11 +4,17 @@ import managementFindingsPriModel from "../models/managementFindingsPri.model";
 class managementFindingsPriController {
 
   static async getTableManagementFindingsPriCont({ 
-    station_id
+    station_id,
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
-        const res = await managementFindingsPriModel.getTableManagementFindingsPriDB(station_id?.toString());
+        const res = await managementFindingsPriModel.getTableManagementFindingsPriDB(
+          station_id?.toString(),
+          sector?.toString(),
+          segment?.toString()
+        );
 
         let totalManagedFindings = 0, totalAllFindings = 0, totalPercentage = 0;
         res.forEach((item: any) => {

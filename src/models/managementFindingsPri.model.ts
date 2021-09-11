@@ -2,7 +2,11 @@ import db from "../config/database";
 
 class managementFindingsPriModel {
 
-  static async getTableManagementFindingsPriDB(station_id: string | undefined): Promise<any> {
+  static async getTableManagementFindingsPriDB(
+    station_id: string | undefined,
+    sector: string | undefined,
+    segment: string | undefined
+    ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
         const conn = await db.connect();
@@ -18,7 +22,9 @@ class managementFindingsPriModel {
           WHERE ie.[Nivel de Riesgo] LIKE 
             CASE WHEN ie.[Nivel de Riesgo] in ('Satisfactorio','Parcial') AND ie.[# Equipos_1] <> 0 THEN ie.[Nivel de Riesgo]
             WHEN ie.[Nivel de Riesgo] in ('Insuficiente') THEN ie.[Nivel de Riesgo] END
-            AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"} 
+            AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
+            AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
           GROUP BY ie.[Nivel de Riesgo] , e.Nombre
           ORDER BY e.Nombre ASC
         `;

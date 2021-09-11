@@ -11,6 +11,12 @@ import maintenancePlanManagement from "./resolvers/maintenancePlanManagement.res
 import effectiveMonitoring from "./resolvers/effectiveMonitoring.resolver";
 import currentlyRiskCost  from "./resolvers/currentlyRiskCost.resolver";
 import managementFindingsPri  from "./resolvers/managementFindingsPri.resolver";
+import riskLevel from "./resolvers/riskLevel.resolver";
+import percentageRiskierAssets from "./resolvers/percentageRiskierAssets.resolver";
+import integrityFindings from "./resolvers/integrityFindings.resolver";
+import mttStaticAssets from "./resolvers/mttStaticAssets.resolver";
+import attentionStaticAssests from "./resolvers/attentionStaticAssests.resolver";
+import complianceAnnualIntegrityPlan from "./resolvers/complianceAnnualIntegrityPlan.resolver";
 
 const router = Router();
 
@@ -122,18 +128,116 @@ router.route('/getTableEffectiveMonitoring').get(effectiveMonitoring.getTableEff
 router.route('/getTableMaterializedVsMonitoring').get(effectiveMonitoring.getTableMaterializedVsMonitoring);
 
 /**
+ * TAB: KPI - Cumplimiento plan anual de integridad.
+ * Endpoint que retorna la data para todas las gráficas respectivas al Tab Cumplimiento plan anual de integridad.
+ */
+router.route('/getTableRiskAwareness').get(complianceAnnualIntegrityPlan.getTableRiskAwareness);
+
+/**
+ * TAB: KPI - Gestión mantenimiento de activos estáticos (MTT activos estáticos).
+ * Endpoint que retorna la data para la tabla 'Ordenes de mantenimiento de equipos estáticos' al igual que para el valor
+ * de 'ordenes cerradas', 'ordenes creadas' y para el porcentaje de 'Gestión mantenimiento de activos estáticos'.
+ * Además de tener la data también para la gráfica 'Porcentaje ordenes creadas' (Solo que no están ordenadas de forma descendente),
+ * como también el porcentaje de cada estación es retornado para la tabla 'porcentaje por estación'.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ */
+router.route('/getTableStaticEquipmentMaintenance').get(mttStaticAssets.getTableStaticEquipmentMaintenance);
+
+/**
+ * TAB: KPI - Atención de avisos activos estáticos.
+ * Endpoint que retorna la data para la tabla 'Avisos gestionados por estación' al igual que para el valor
+ * de 'Total avisos gestionados', 'Total de avisos creados' y para el porcentaje de 'Reducción del riesgo de activos estáticos'.
+ * Además de tener la data también para la gráfica 'Gestión de avisos por estación' (Solo que no están ordenadas de forma descendente),
+ * como para la gráfica 'Número de avisos creados por estación' 
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ */
+router.route('/getTableNoticesManagedByStation').get(attentionStaticAssests.getTableNoticesManagedByStation);
+
+/**
+ * TAB: KPI - Hallazgos de integridad.
+ * Endpoint que retorna la data para la tabla 'Hallazgos de integridad', incluyendo el total de 'hallazgos identificados' como último objeto del arreglo retornado. 
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ */
+router.route('/getTableIntegrityFindings').get(integrityFindings.getTableIntegrityFindings);
+
+/**
+ * TAB: KPI - Hallazgos de integridad.
+ * Endpoint que retorna la data del máximo de 'Hallazgos cerrados' 
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ */
+router.route('/getFindigsClosed').get(integrityFindings.getFindigsClosed);
+ 
+/**
+ * TAB: KPI - Hallazgos de integridad.
+ * Endpoint que retorna la data para la gráfica 'Porcentaje de hallazgos cerrados' 
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ */
+router.route('/getPercentageFindingsClosed').get(integrityFindings.getPercentageFindigsClosed);
+ 
+/**
+ * TAB: KPI - Hallazgos de integridad.
+ * Endpoint que retorna la data para la gráfica 'Porcentaje de hallazgos cerrados por grupo' 
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ */
+router.route('/getPercentageFindingsClosedByGroup').get(integrityFindings.getPercentageFindingsClosedByGroup);
+
+/**
  * TAB: KRI - Costo del riesgo actual.
  * Endpoint que retorna la data para la tabla 'Costo del riesgo Actual', el total de 'Líneas fuera del target' y 'Total de líneas'.
  * Como también la data retornada funciona para la gráfica de barras 'Líneas fuera del target' (Sin embargo no está ordenado por el campo 'linesTotal').
- * @param {string} station_id id de la estación.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  * NOTE: Falta data para la tabla 'Activos con costo fuera del Target'.
  */
 router.route('/getTableCurrentlyRiskCost').get(currentlyRiskCost.getTableCurrentlyRiskCost);
 
 /**
+ * TAB: KRI - Porcentaje de activos de mayor riesgo
+ * Endpoint que retorna la data para la gráfica 'Pareto porcentaje de activos de mayor riesgo' y el valor del porcentaje donde 'cumple'.
+ * @param {string} station_id id de la estación a filtrar.
+ */
+router.route('/getParetoPercentageRiskierAssets').get(percentageRiskierAssets.getParetoPercentageRiskierAssets);
+
+/**
+ * TAB: KRI - Nivel de Riesgo
+ * Endpoint que retorna la data para la tabla 'Nivel de riesgo - Recipientes' y la gráfica de barras del porcentaje.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableRiskLevelContainers').get(riskLevel.getTableRiskLevelContainers);
+
+/**
+ * TAB: KRI - Nivel de Riesgo
+ * Endpoint que retorna la data para la tabla 'Nivel de riesgo - Tanques' y la gráfica de barras del porcentaje.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableRiskLevelTanks').get(riskLevel.getTableRiskLevelTanks);
+
+/**
+ * TAB: KRI - Nivel de Riesgo
+ * Endpoint que retorna la data para la tabla 'Nivel de riesgo - Tuberias' y la gráfica de barras del porcentaje.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableRiskLevelPipelines').get(riskLevel.getTableRiskLevelPipelines);
+ 
+/**
  * TAB: KRI - Gestión de hallazgos prioritarios.
  * Endpoint que retorna la data para todas las tablas presentadas en la sección 'Gestión de hallazgos prioritarios'.
- * @param {string} station_id id de la estación.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableManagementFindingsPri').get(managementFindingsPri.getTableManagementFindingsPri);
 

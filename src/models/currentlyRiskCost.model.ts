@@ -1,8 +1,12 @@
 import db from "../config/database";
 
-class unmanagedNoticesModel {
+class currentlyRiskCostModel {
 
-  static async getTableCurrentlyRiskCostDB(station_id: string | undefined): Promise<any> {
+  static async getTableCurrentlyRiskCostDB(
+    station_id: string | undefined,
+    sector: string | undefined,
+    segment: string | undefined
+    ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
         const conn = await db.connect();
@@ -17,6 +21,8 @@ class unmanagedNoticesModel {
           FROM Costo c 
           INNER JOIN Estaciones e ON e.Estacion_ID = c.ESTACIÓN 
           WHERE e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"} 
+            AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
           ORDER BY "lineOutTarget" DESC
         `;
         const result = await conn.query(query);
@@ -29,4 +35,4 @@ class unmanagedNoticesModel {
   }
 }
 
-export default unmanagedNoticesModel;
+export default currentlyRiskCostModel;
