@@ -29,7 +29,7 @@ const connect = async () => {
     }
     return poolConn;
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(`Error in connect: ${error}`);
     throw error;
   }
 }

@@ -141,6 +141,7 @@ router.route('/getTableRiskAwareness').get(complianceAnnualIntegrityPlan.getTabl
  * como también el porcentaje de cada estación es retornado para la tabla 'porcentaje por estación'.
  * @param {string} station_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableStaticEquipmentMaintenance').get(mttStaticAssets.getTableStaticEquipmentMaintenance);
 
@@ -152,6 +153,7 @@ router.route('/getTableStaticEquipmentMaintenance').get(mttStaticAssets.getTable
  * como para la gráfica 'Número de avisos creados por estación' 
  * @param {string} station_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableNoticesManagedByStation').get(attentionStaticAssests.getTableNoticesManagedByStation);
 
@@ -160,6 +162,7 @@ router.route('/getTableNoticesManagedByStation').get(attentionStaticAssests.getT
  * Endpoint que retorna la data para la tabla 'Hallazgos de integridad', incluyendo el total de 'hallazgos identificados' como último objeto del arreglo retornado. 
  * @param {string} station_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableIntegrityFindings').get(integrityFindings.getTableIntegrityFindings);
 
@@ -168,6 +171,7 @@ router.route('/getTableIntegrityFindings').get(integrityFindings.getTableIntegri
  * Endpoint que retorna la data del máximo de 'Hallazgos cerrados' 
  * @param {string} station_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getFindigsClosed').get(integrityFindings.getFindigsClosed);
  
@@ -176,6 +180,7 @@ router.route('/getFindigsClosed').get(integrityFindings.getFindigsClosed);
  * Endpoint que retorna la data para la gráfica 'Porcentaje de hallazgos cerrados' 
  * @param {string} station_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getPercentageFindingsClosed').get(integrityFindings.getPercentageFindigsClosed);
  
@@ -184,6 +189,7 @@ router.route('/getPercentageFindingsClosed').get(integrityFindings.getPercentage
  * Endpoint que retorna la data para la gráfica 'Porcentaje de hallazgos cerrados por grupo' 
  * @param {string} station_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getPercentageFindingsClosedByGroup').get(integrityFindings.getPercentageFindingsClosedByGroup);
 
@@ -194,9 +200,26 @@ router.route('/getPercentageFindingsClosedByGroup').get(integrityFindings.getPer
  * @param {string} station_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
  * @param {string} segment id del segmento a filtrar.
- * NOTE: Falta data para la tabla 'Activos con costo fuera del Target'.
  */
 router.route('/getTableCurrentlyRiskCost').get(currentlyRiskCost.getTableCurrentlyRiskCost);
+
+/**
+ * TAB: KRI - Costo del riesgo actual.
+ * Endpoint que retorna la data para la tabla 'Activos con costo fuera del Target'.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getActivesCostOutTarget').get(currentlyRiskCost.getActivesCostOutTarget);
+
+/**
+ * TAB: KRI - Costo del riesgo actual.
+ * Endpoint que retorna la data para la tabla 'Activos con costo fuera del Target'.
+ * @param {string} station_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getMatrizCurrentlyCostRisk').get(currentlyRiskCost.getMatrizCurrentlyCostRisk);
 
 /**
  * TAB: KRI - Porcentaje de activos de mayor riesgo

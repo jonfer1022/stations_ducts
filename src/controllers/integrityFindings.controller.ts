@@ -5,13 +5,15 @@ class integrityFindingsController {
 
   static async getTableIntegrityFindingsCont({ 
     station_id,
-    sector
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
         const res = await integrityFindingsModel.getTableIntegrityFindingsDB(
           station_id?.toString(),
-          sector?.toString()
+          sector?.toString(),
+          segment?.toString()
         );
         
         let total = { totalIntegrity: 0, totalInspection: 0, totalMaintenance: 0, totalReg: 0 };
@@ -33,13 +35,15 @@ class integrityFindingsController {
   
   static async getFindigsClosedCont({ 
     station_id,
-    sector
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
         const res = await integrityFindingsModel.getFindigsClosedDB(
           station_id?.toString(),
-          sector?.toString()
+          sector?.toString(),
+          segment?.toString()
         );
         resolve(res);
       } catch (error) {
@@ -51,13 +55,15 @@ class integrityFindingsController {
   
   static async getPercentageFindigsClosedCont({ 
     station_id,
-    sector
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
         const res = await integrityFindingsModel.getPercentageFindigsClosedDB(
           station_id?.toString(),
-          sector?.toString()
+          sector?.toString(),
+          segment?.toString()
         );
         resolve(res);
       } catch (error) {
@@ -69,13 +75,15 @@ class integrityFindingsController {
   
   static async getPercentageFindingsClosedByGroupCont({ 
     station_id,
-    sector
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
         const res = await integrityFindingsModel.getPercentageFindingsClosedByGroupDB(
           station_id?.toString(),
-          sector?.toString()
+          sector?.toString(),
+          segment?.toString()
         );
         resolve(res);
       } catch (error) {

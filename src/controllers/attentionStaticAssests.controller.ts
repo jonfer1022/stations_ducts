@@ -5,13 +5,15 @@ class attentionStaticAssestsController {
 
   static async getTableNoticesManagedByStationCont({ 
     station_id,
-    sector
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
         const res = await attentionStaticAssestsModel.getTableNoticesManagedByStationDB(
           station_id?.toString(),
-          sector?.toString()
+          sector?.toString(),
+          segment?.toString()
         );
 
         let totalNoticesManagement = 0, totalNoticesCreated = 0, totalPercentage = 0;

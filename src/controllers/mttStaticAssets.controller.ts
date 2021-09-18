@@ -5,13 +5,15 @@ class mttStaticAssetsController {
 
   static async getTableStaticEquipmentMaintenanceCont({ 
     station_id,
-    sector
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
         const res = await mttStaticAssetsModel.getTableStaticEquipmentMaintenanceDB(
           station_id?.toString(),
-          sector?.toString()
+          sector?.toString(),
+          segment?.toString()
         );
 
         let totalOrdersCreated = 0, totalOrdersClosed = 0, totalPercentage = 0;

@@ -4,7 +4,8 @@ class attentionStaticAssestsModel {
 
   static async getTableNoticesManagedByStationDB(
     station_id: string | undefined,
-    sector: string | undefined
+    sector: string | undefined,
+    segment: string | undefined
     ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
@@ -21,6 +22,7 @@ class attentionStaticAssestsModel {
           INNER JOIN Estaciones e on e.Estacion_ID = adaae.ESTACIÓN 
           WHERE e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"} 
             AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
           ORDER BY e.Nombre ASC
         `;
         const result = await conn.query(query);

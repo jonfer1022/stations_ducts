@@ -4,7 +4,8 @@ class integrityFindingsModel {
 
   static async getTableIntegrityFindingsDB(
     station_id: string | undefined,
-    sector: string | undefined
+    sector: string | undefined,
+    segment: string | undefined
     ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
@@ -28,6 +29,7 @@ class integrityFindingsModel {
             WHERE _hi1.Responsable = 'Integridad' 
               AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
               AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+              AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
             GROUP BY _hi1.Grupo_del_hallazgo
           ) as hi1 ON hi1._Grupo_del_hallazgo = hi.Grupo_del_hallazgo
           LEFT JOIN (
@@ -39,6 +41,7 @@ class integrityFindingsModel {
             WHERE _hi2.Responsable = 'Inspección'
               AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
               AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+              AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
             GROUP BY _hi2.Grupo_del_hallazgo
           ) as hi2 ON hi2._Grupo_del_hallazgo = hi.Grupo_del_hallazgo
           LEFT JOIN (
@@ -50,11 +53,13 @@ class integrityFindingsModel {
             WHERE _hi3.Responsable = 'Mantenimiento'
               AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
               AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+              AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
             GROUP BY _hi3.Grupo_del_hallazgo
           ) as hi3 ON hi3._Grupo_del_hallazgo = hi.Grupo_del_hallazgo
           INNER JOIN Estaciones e on e.Estacion_ID = hi.Estacion_ID 
           WHERE e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
             AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
           GROUP BY hi.Grupo_del_hallazgo, hi1.group1, hi2.group2, hi3.group3 
           ORDER BY hi.Grupo_del_hallazgo
         `;
@@ -69,7 +74,8 @@ class integrityFindingsModel {
   
   static async getFindigsClosedDB(
     station_id: string | undefined,
-    sector: string | undefined
+    sector: string | undefined,
+    segment: string | undefined
     ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
@@ -82,6 +88,7 @@ class integrityFindingsModel {
           WHERE hi.Estado_de_Atención = 'Cerrado' 
             AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
             AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
         `;
         const result = await conn.query(query);
         resolve(result.recordset);
@@ -94,7 +101,8 @@ class integrityFindingsModel {
   
   static async getPercentageFindigsClosedDB(
     station_id: string | undefined,
-    sector: string | undefined
+    sector: string | undefined,
+    segment: string | undefined
     ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
@@ -115,10 +123,12 @@ class integrityFindingsModel {
             WHERE _hi1.Estado_de_Atención = 'Cerrado'
               AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
               AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+              AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
             GROUP BY _hi1.Responsable_de_cierre
           ) as hi1 on hi1.responsibleClosing = hi.Responsable_de_cierre
           WHERE e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"} 
             AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
           GROUP BY hi.Responsable_de_cierre, hi1.findingsClosed
           ORDER BY hi.Responsable_de_cierre
         `;
@@ -133,7 +143,8 @@ class integrityFindingsModel {
   
   static async getPercentageFindingsClosedByGroupDB(
     station_id: string | undefined,
-    sector: string | undefined
+    sector: string | undefined,
+    segment: string | undefined,
     ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
@@ -153,11 +164,13 @@ class integrityFindingsModel {
             INNER JOIN Estaciones e on e.Estacion_ID = _hi1.Estacion_ID
             WHERE _hi1.Estado_de_Atención = 'Cerrado'
               AND e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
-              AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}   
+              AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}  
+              AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"} 
             GROUP BY _hi1.Grupo_del_hallazgo
           ) as hi1 on hi1."group" = hi.Grupo_del_hallazgo
           WHERE e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
             AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
           GROUP BY hi.Grupo_del_hallazgo, hi1.findingsClosed
           ORDER BY hi.Grupo_del_hallazgo
         `;

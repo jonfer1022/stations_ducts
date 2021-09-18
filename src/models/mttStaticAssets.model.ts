@@ -4,7 +4,8 @@ class mttStaticAssetsModel {
 
   static async getTableStaticEquipmentMaintenanceDB(
     station_id: string | undefined,
-    sector: string | undefined
+    sector: string | undefined,
+    segment: string | undefined,
     ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
@@ -20,6 +21,7 @@ class mttStaticAssetsModel {
           INNER JOIN Estaciones e on e.Estacion_ID = mae.ESTACIÓN 
           WHERE e.Estaciones_id ${station_id ? `= '${station_id}'`: "IS NOT NULL"}
             AND e.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND e.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
           ORDER BY e.Nombre
         `;
         const result = await conn.query(query);
