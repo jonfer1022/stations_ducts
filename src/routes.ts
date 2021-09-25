@@ -17,6 +17,7 @@ import integrityFindings from "./resolvers/integrityFindings.resolver";
 import mttStaticAssets from "./resolvers/mttStaticAssets.resolver";
 import attentionStaticAssests from "./resolvers/attentionStaticAssests.resolver";
 import complianceAnnualIntegrityPlan from "./resolvers/complianceAnnualIntegrityPlan.resolver";
+import noticesManagement from "./resolvers/noticesManagement.resolver";
 
 const router = Router();
 
@@ -263,5 +264,12 @@ router.route('/getTableRiskLevelPipelines').get(riskLevel.getTableRiskLevelPipel
  * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableManagementFindingsPri').get(managementFindingsPri.getTableManagementFindingsPri);
+
+/**
+ * TAB: KPI Ductos - Gestión de avisos
+ * Endpoint que retorna la data para la tabla 'Gestión de avisos', el porcentaje de 'Gestión de avisos' y
+ * la data para la gráfica 'Costos materializados vs Costo Monitoreos'.
+ */
+router.route('/getTableNoticesManagement').get(noticesManagement.getTableNoticesManagement);
 
 export default router;
