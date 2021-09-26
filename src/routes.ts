@@ -19,6 +19,7 @@ import attentionStaticAssests from "./resolvers/attentionStaticAssests.resolver"
 import complianceAnnualIntegrityPlan from "./resolvers/complianceAnnualIntegrityPlan.resolver";
 import noticesManagement from "./resolvers/noticesManagement.resolver";
 import riskMitigation from "./resolvers/riskMitigation.resolver";
+import ilicitasBySection from "./resolvers/ilicitasBySection.resolver";
 
 const router = Router();
 
@@ -279,5 +280,12 @@ router.route('/getTableNoticesManagement').get(noticesManagement.getTableNotices
  * la data para la gráfica 'Costos materializados vs Costo Monitoreos'.
  */
  router.route('/getTableRiskMitigation').get(riskMitigation.getTableRiskMitigation);
+
+ /**
+ * TAB: KPI Ductos - Gestión de avisos
+ * Endpoint que retorna la data para la tabla 'Gestión de avisos', el porcentaje de 'Gestión de avisos' y
+ * la data para la gráfica 'Costos materializados vs Costo Monitoreos'.
+ */
+  router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicitasBySection);
 
 export default router;
