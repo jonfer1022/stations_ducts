@@ -15,7 +15,7 @@ const getTableEffectiveMonitoring = async (req: Request, res: Response): Promise
 
 const getTableMaterializedVsMonitoring = async (req: Request, res: Response): Promise<Response | void> => {
   try {
-    const result = await effectiveMonitoringController.getTableMaterializedVsMonitoringCont();
+    const result = await effectiveMonitoringController.getTableMaterializedVsMonitoringCont(req.query);
     res.status(OK).json(result)
   } catch (error) {
     console.error("An error ocurred getTableMaterializedVsMonitoring: ",error);

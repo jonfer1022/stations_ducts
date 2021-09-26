@@ -8,7 +8,7 @@ class effectiveMonitoringController {
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
-        const res = await effectiveMonitoringModel.getTableEffectiveMonitoringDB(sector)
+        const res = await effectiveMonitoringModel.getTableEffectiveMonitoringDB(sector?.toString())
 
         let materializedTotal = 0, monitoringTotal = 0;
         res.forEach( (item: any)  => {
@@ -26,10 +26,12 @@ class effectiveMonitoringController {
     })
   }
   
-  static async getTableMaterializedVsMonitoringCont(): Promise<object> {
+  static async getTableMaterializedVsMonitoringCont({ 
+    sector
+  } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
-        const res = await effectiveMonitoringModel.getTableMaterializedVsMonitoringDB()
+        const res = await effectiveMonitoringModel.getTableMaterializedVsMonitoringDB(sector?.toString())
         resolve(res);
       } catch (error) {
         console.error("An error ocurred getTableMaterializedVsMonitoringCont: ",error);

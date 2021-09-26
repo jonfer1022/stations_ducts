@@ -18,6 +18,7 @@ import mttStaticAssets from "./resolvers/mttStaticAssets.resolver";
 import attentionStaticAssests from "./resolvers/attentionStaticAssests.resolver";
 import complianceAnnualIntegrityPlan from "./resolvers/complianceAnnualIntegrityPlan.resolver";
 import noticesManagement from "./resolvers/noticesManagement.resolver";
+import managementRoutineActivities from "./resolvers/managementRoutineActivities.resolver";
 import riskMitigation from "./resolvers/riskMitigation.resolver";
 import ilicitasBySection from "./resolvers/ilicitasBySection.resolver";
 
@@ -102,33 +103,6 @@ router.route('/getTableManagementIncorrectOp').get(managementIncorrectOp.getTabl
  * @param {string} date Fecha del evento. 
  */
 router.route('/getTableManagementIncorrectOpGroupByDate').get(managementIncorrectOp.getTableManagementIncorrectOpGroupByDate);
-
-/**
- * TAB: KPI Ductos - Gestión plan de mantenimiento.
- * Endpoint que retona la data para la tabla 'Avance de ejecución vs programación'. 
- * @param {string} year Año a filtrar. 
- */
-router.route('/getTableExecutionVsScheduling').get(maintenancePlanManagement.getTableExecutionVsScheduling);
-
-/**
- * TAB: KPI Ductos - Gestión plan de mantenimiento.
- * Endpoint que retorna el porcentaje máximo de la obra civil ejecutada, el máximo programado y el avance de la compañia. 
- * @param {string} year Año a filtrar.
- */
-router.route('/getMaxExecutionShedulingProgress').get(maintenancePlanManagement.getMaxExecutionShedulingProgress);
-
-/**
- * TAB: KPI Ductos - Efectividad de monitoreos
- * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos' y el valor de la efectividad total
- * @param {string} sector Sector a filtrar.
- */
-router.route('/getTableEffectiveMonitoring').get(effectiveMonitoring.getTableEffectiveMonitoring);
-
-/**
- * TAB: KPI Ductos - Efectividad de monitoreos
- * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos vs Costo monitoreos'
- */
-router.route('/getTableMaterializedVsMonitoring').get(effectiveMonitoring.getTableMaterializedVsMonitoring);
 
 /**
  * TAB: KPI - Cumplimiento plan anual de integridad.
@@ -268,6 +242,44 @@ router.route('/getTableRiskLevelPipelines').get(riskLevel.getTableRiskLevelPipel
 router.route('/getTableManagementFindingsPri').get(managementFindingsPri.getTableManagementFindingsPri);
 
 /**
+ * TAB: KPI Ductos - Gestión plan de mantenimiento.
+ * Endpoint que retona la data para la tabla 'Avance de ejecución vs programación'. 
+ * @param {string} year Año a filtrar. 
+ */
+router.route('/getTableExecutionVsScheduling').get(maintenancePlanManagement.getTableExecutionVsScheduling);
+
+/**
+ * TAB: KPI Ductos - Gestión plan de mantenimiento.
+ * Endpoint que retorna el porcentaje máximo de la obra civil ejecutada, el máximo programado y el avance de la compañia. 
+ * @param {string} year Año a filtrar.
+ */
+router.route('/getMaxExecutionShedulingProgress').get(maintenancePlanManagement.getMaxExecutionShedulingProgress);
+
+/**
+ * TAB: KPI Ductos - Gestión de actividades rutinarias
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab ya anteriormente mencionado.
+ */
+router.route('/getDataManagementRoutineActivities').get(managementRoutineActivities.getDataManagementRoutineActivities);
+
+/**
+ * NO SE PINTAN LAS GRÁFICAS - Gestión de actividades basadas en condición
+ */
+
+/**
+ * TAB: KPI Ductos - Efectividad de monitoreos
+ * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos' y el valor de la efectividad total
+ * @param {string} sector Sector a filtrar.
+ */
+router.route('/getTableEffectiveMonitoring').get(effectiveMonitoring.getTableEffectiveMonitoring);
+ 
+/**
+ * TAB: KPI Ductos - Efectividad de monitoreos
+ * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos vs Costo monitoreos'
+ * @param {string} sector Sector a filtrar.
+ */
+router.route('/getTableMaterializedVsMonitoring').get(effectiveMonitoring.getTableMaterializedVsMonitoring);
+
+/**
  * TAB: KPI Ductos - Gestión de avisos
  * Endpoint que retorna la data para la tabla 'Gestión de avisos', el porcentaje de 'Gestión de avisos' y
  * la data para la gráfica 'Costos materializados vs Costo Monitoreos'.
@@ -275,17 +287,19 @@ router.route('/getTableManagementFindingsPri').get(managementFindingsPri.getTabl
 router.route('/getTableNoticesManagement').get(noticesManagement.getTableNoticesManagement);
 
 /**
- * TAB: KPI Ductos - Gestión de avisos
- * Endpoint que retorna la data para la tabla 'Gestión de avisos', el porcentaje de 'Gestión de avisos' y
- * la data para la gráfica 'Costos materializados vs Costo Monitoreos'.
+ * NO SE PINTAN LAS GRÁFICAS - Disponibilidad para bombeo
  */
- router.route('/getTableRiskMitigation').get(riskMitigation.getTableRiskMitigation);
 
- /**
- * TAB: KPI Ductos - Gestión de avisos
- * Endpoint que retorna la data para la tabla 'Gestión de avisos', el porcentaje de 'Gestión de avisos' y
- * la data para la gráfica 'Costos materializados vs Costo Monitoreos'.
+/**
+ * TAB: KRI Ductos - 
+ * Endpoint que retorna la data para 
  */
-  router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicitasBySection);
+router.route('/getTableRiskMitigation').get(riskMitigation.getTableRiskMitigation);
+
+/**
+ * TAB: KRI Ductos - 
+ * Endpoint que retorna la data para 
+ */
+router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicitasBySection);
 
 export default router;
