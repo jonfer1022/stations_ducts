@@ -291,14 +291,20 @@ router.route('/getTableNoticesManagement').get(noticesManagement.getTableNotices
  */
 
 /**
- * TAB: KRI Ductos - 
- * Endpoint que retorna la data para 
+ * TAB: KRI Ductos - Mitigación del riesgo.
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado.
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableRiskMitigation').get(riskMitigation.getTableRiskMitigation);
 
 /**
- * TAB: KRI Ductos - 
- * Endpoint que retorna la data para 
+ * TAB: KRI Ductos - Ilicitas
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Exceptuando el porcentaje y el recuadro ilicitas identificadas)
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicitasBySection);
 

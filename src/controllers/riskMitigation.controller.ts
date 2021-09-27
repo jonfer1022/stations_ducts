@@ -4,19 +4,27 @@ import riskMitigationModel from "../models/riskMitigation.model";
 class riskMitigationController {
 
   static async getTableRiskMitigationCont({ 
-    station_id,
+    ducts_id,
     sector,
     segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
-        const res = await riskMitigationModel.getTableRiskMitigationContDB(
-          station_id?.toString(),
+        const res: Array<object> = await riskMitigationModel.getTableRiskMitigationContDB(
+          ducts_id?.toString(),
           sector?.toString(),
           segment?.toString()
         );
 
+        let totalValoration = 0, totalReValoration = 0;
+
+        res.forEach((item:any) => {
+          totalValoration += item.valoration;
+          totalReValoration += item.reValoration;
+        });
         
+        res.push({ totalReValoration, percentageRiskMitigation: 100 - (totalReValoration/totalValoration) * 100 })
+
         resolve(res);
       } catch (error) {
         console.error("An error ocurred getTableRiskMitigationCont: ",error);
