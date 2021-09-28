@@ -80,13 +80,6 @@ router.route('/getTableUnmanagedNotices').get(unmanagedNotices.getTableUnmanaged
 router.route('/getTableMechanicalIntegrity').get(mechanicalIntegrity.getTableMechanicalIntegrity);
 
 /**
- * TAB: KRI Ductos - Reducción costo del riesgo
- * Endpoint (FALTA TERMINAR EL MODEL)
- * @param {string} station_id id de las estaciones. 
- */
-router.route('/getTableAverageCostSeccions').get(riskCostReduction.getTableAverageCostSeccions);
-
-/**
  * Avance obra, faltan datos y tablas!!!!!!!!
  */
 router.route('/getTableProgressWorks').get(progressWorks.getTableProgressWorks);
@@ -309,22 +302,32 @@ router.route('/getTableRiskMitigation').get(riskMitigation.getTableRiskMitigatio
  * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicitasBySection);
+
 /**
- * TAB: KRI Ductos - Gestion de integridad mecanica
- * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Exceptuando el porcentaje y el recuadro ilicitas identificadas)
+ * TAB: KRI Ductos - Gestión de integridad mecánica.
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Validar el campo SLEEVE_SV de la tabla KRI3_SLEEVE_SV)
  * @param {string} ducts_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
  * @param {string} segment id del segmento a filtrar.
  */
- router.route('/getTableMechanicalIntegrityManagement').get(mechanicalIntegrityManagement.getTableMechanicalIntegrityManagement);
+router.route('/getTableMechanicalIntegrityManagement').get(mechanicalIntegrityManagement.getTableMechanicalIntegrityManagement);
+
+/**
+ * TAB: KRI Ductos - Reducción costo del riesgo
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (el porcentage total varia porque se calcula con el total de todos los registros)
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableAverageCostSeccions').get(riskCostReduction.getTableAverageCostSeccions);
 
 /**
  * TAB: KRI Ductos - Riesgo en escenario de desastre
- * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Exceptuando el porcentaje y el recuadro ilicitas identificadas)
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado.......
  * @param {string} ducts_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
  * @param {string} segment id del segmento a filtrar.
  */
- router.route('/getTableDisasterRisk').get(disasterRisk.getTableDisasterRisk);
+router.route('/getTableDisasterRisk').get(disasterRisk.getTableDisasterRisk);
 
 export default router;
