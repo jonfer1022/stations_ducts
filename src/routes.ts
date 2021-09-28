@@ -22,6 +22,7 @@ import managementRoutineActivities from "./resolvers/managementRoutineActivities
 import riskMitigation from "./resolvers/riskMitigation.resolver";
 import ilicitasBySection from "./resolvers/ilicitasBySection.resolver";
 import mechanicalIntegrityManagement from "./resolvers/mechanicalIntegrityManagement.resolver";
+import disasterRisk from "./resolvers/disasterRisk.resolver";
 
 const router = Router();
 
@@ -309,7 +310,7 @@ router.route('/getTableRiskMitigation').get(riskMitigation.getTableRiskMitigatio
  */
 router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicitasBySection);
 /**
- * TAB: KRI Ductos - mechanicalIntegrityManagement
+ * TAB: KRI Ductos - Gestion de integridad mecanica
  * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Exceptuando el porcentaje y el recuadro ilicitas identificadas)
  * @param {string} ducts_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
@@ -317,5 +318,13 @@ router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicita
  */
  router.route('/getTableMechanicalIntegrityManagement').get(mechanicalIntegrityManagement.getTableMechanicalIntegrityManagement);
 
+/**
+ * TAB: KRI Ductos - Riesgo en escenario de desastre
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Exceptuando el porcentaje y el recuadro ilicitas identificadas)
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+ router.route('/getTableDisasterRisk').get(disasterRisk.getTableDisasterRisk);
 
 export default router;
