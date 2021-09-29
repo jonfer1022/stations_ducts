@@ -85,21 +85,6 @@ router.route('/getTableMechanicalIntegrity').get(mechanicalIntegrity.getTableMec
 router.route('/getTableProgressWorks').get(progressWorks.getTableProgressWorks);
 
 /**
- * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
- * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' y la gráfica circular 'Número de eventos'
- * @param {string} section_name nombre del ducto. 
- */
-router.route('/getTableManagementIncorrectOp').get(managementIncorrectOp.getTableManagementIncorrectOp);
-
-/**
- * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
- * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' relacionada con las fechas del evento.
- * @param {string} section_name nombre del ducto. 
- * @param {string} date Fecha del evento. 
- */
-router.route('/getTableManagementIncorrectOpGroupByDate').get(managementIncorrectOp.getTableManagementIncorrectOpGroupByDate);
-
-/**
  * TAB: KPI - Cumplimiento plan anual de integridad.
  * Endpoint que retorna la data para todas las gráficas respectivas al Tab Cumplimiento plan anual de integridad.
  */
@@ -323,11 +308,28 @@ router.route('/getTableAverageCostSeccions').get(riskCostReduction.getTableAvera
 
 /**
  * TAB: KRI Ductos - Riesgo en escenario de desastre
- * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado.......
+ * Endpoint que retorna la data para la tabla 'Riesgo en escenarios de desastre' y el porcentaje total respectivo.
  * @param {string} ducts_id id de la estación a filtrar.
  * @param {string} sector nombre del sector a filtrar.
  * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableDisasterRisk').get(disasterRisk.getTableDisasterRisk);
+
+/* FALTA ENDPOINT PARA DE KRI Ductos LA TABLA INFERIOR  */
+
+/**
+ * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
+ * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' y la gráfica circular 'Número de eventos'
+ * @param {string} section_name nombre del ducto. 
+ */
+router.route('/getTableManagementIncorrectOp').get(managementIncorrectOp.getTableManagementIncorrectOp);
+
+/**
+ * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
+ * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' relacionada con las fechas del evento.
+ * @param {string} section_name nombre del ducto. 
+ * @param {string} date Fecha del evento. 
+ */
+router.route('/getTableManagementIncorrectOpGroupByDate').get(managementIncorrectOp.getTableManagementIncorrectOpGroupByDate);
 
 export default router;

@@ -16,6 +16,14 @@ class disasterRiskController {
           segment?.toString()
         );
 
+        let totalPercentage = 0;
+        
+        res.forEach((item:any) => {
+          totalPercentage += item.riskDisaster;
+        });
+
+        res.push({totalPercentage})
+
         resolve(res);
       } catch (error) {
         console.error("An error ocurred getTableDisasterRiskCont: ",error);

@@ -12,30 +12,19 @@ class disasterRiskModel {
         const conn = await db.connect();
         const query = `
           SELECT 
-            d.ROUTE_NAME as "ducts_name" ,
-            COUNT(CAST(kp.Aviso as FLOAT)) as "ilicitClosed",
-            ki1.ilicitIdentified,
-            ((COUNT(CAST(kp.Aviso as FLOAT)))/(CAST(ki1.ilicitIdentified as FLOAT))) * 100 as "percentageIlicit"
-          FROM KRI2_PM01 kp
-          INNER JOIN KRI2_IW69_01 ki ON ki.Aviso = kp.Aviso 
-          INNER JOIN Ductos d ON d.PREFIJO = ki.[Ubicación técnica]
-          LEFT JOIN (
-            SELECT 
-              d.ROUTE_NAME as "ducts_name",
-              COUNT(CAST(ki.Aviso as FLOAT)) as "ilicitIdentified"
-            FROM KRI2_IW69_01 ki
-            INNER JOIN Ductos d ON d.PREFIJO = ki.[Ubicación técnica] 
-            WHERE ki.[Sintoma de averia] = 'ILICITA'
-              AND d.Ductos_id ${ducts_id ? `= '${ducts_id}'`: "IS NOT NULL"}
-              AND d.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
-              AND d.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
-            GROUP BY d.ROUTE_NAME
-          ) as ki1 ON ki1.ducts_name = d.ROUTE_NAME 
-          WHERE ki.[Sintoma de averia] = 'ILICITA'
+            d.ROUTE_NAME as "ductsName",
+            CASE WHEN ked.[Volumen potencial de] IS NOT NULL THEN ked.[Volumen potencial de] ELSE 0 END AS "volumentPotencial",
+            SUM(CAST(kff.Value as FLOAT)) as "probabilitySum",
+            SUM(CAST(kff.Value as FLOAT)) / 0.0001 as "riskDisaster"
+          FROM KRI5_FoF kff
+          LEFT JOIN Ductos d ON d.ROUTE_GUID = kff.RouteGUID 
+          RIGHT JOIN KRI5_EscenarioDesastre ked ON ked.[No] = kff.XID 
+          WHERE kff.Escenario_Desastre <> '' AND CAST(kff.Value as FLOAT) > 0.0001
             AND d.Ductos_id ${ducts_id ? `= '${ducts_id}'`: "IS NOT NULL"}
             AND d.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
             AND d.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"}
-          GROUP BY d.ROUTE_NAME, ki1.ilicitIdentified
+          GROUP BY d.ROUTE_NAME, ked.[Volumen potencial de]
+          ORDER BY d.ROUTE_NAME
         `;
         const result = await conn.query(query);
         resolve(result.recordset);
