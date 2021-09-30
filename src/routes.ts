@@ -2,9 +2,7 @@ import { Router } from "express";
 import stations from "./resolvers/stations.resolver";
 import ducts from "./resolvers/ducts.resolver";
 import reassessment from "./resolvers/reassessment.resolver";
-import progressWorks from "./resolvers/progressWorks.resolver";
 import unmanagedNotices from "./resolvers/unmanagedNotices.resolver";
-import mechanicalIntegrity from "./resolvers/mechanicalIntegrity.resolver";
 import riskCostReduction from "./resolvers/riskCostReduction.resolver";
 import managementIncorrectOp from "./resolvers/managementIncorrectOp.resolver";
 import maintenancePlanManagement from "./resolvers/maintenancePlanManagement.resolver";
@@ -17,6 +15,12 @@ import integrityFindings from "./resolvers/integrityFindings.resolver";
 import mttStaticAssets from "./resolvers/mttStaticAssets.resolver";
 import attentionStaticAssests from "./resolvers/attentionStaticAssests.resolver";
 import complianceAnnualIntegrityPlan from "./resolvers/complianceAnnualIntegrityPlan.resolver";
+import noticesManagement from "./resolvers/noticesManagement.resolver";
+import managementRoutineActivities from "./resolvers/managementRoutineActivities.resolver";
+import riskMitigation from "./resolvers/riskMitigation.resolver";
+import ilicitasBySection from "./resolvers/ilicitasBySection.resolver";
+import mechanicalIntegrityManagement from "./resolvers/mechanicalIntegrityManagement.resolver";
+import disasterRisk from "./resolvers/disasterRisk.resolver";
 
 const router = Router();
 
@@ -56,76 +60,10 @@ router.route('/getFilterDisasterScenarios').get(ducts.getFilterDisasterScenarios
 router.route('/getTableReassessment').get(reassessment.getTableReassessment);
 
 /**
- * Endpoint que retorna la data para el filtro estaciones utilizado para filtrar en tab 'Avisos sin gestionar'
- */
-router.route('/getFilterStationsUnmanagedNotices').get(unmanagedNotices.getFilterStationsUnmanagedNotices);
-
-/**
  * Endpoint que retorna la data para la tabla 'Avisos sin gestionar'
  * @param {string} station_id id de las estaciones. 
  */
 router.route('/getTableUnmanagedNotices').get(unmanagedNotices.getTableUnmanagedNotices);
-
-/**
- * Endpoint que retorna la data para la tabla y la gráfica de barras 'Gestión de integridad mecánica' ¡AUN FALTAN UNOS DATOS!! tabla dent_Strain_Remaining
- * @param {string} station_id id de las estaciones.
- * NOTA: Por ende hace falta la gráfica del porcentaje (La circular y las de los puntos.) tab KRI DUCTOS 
- */
-router.route('/getTableMechanicalIntegrity').get(mechanicalIntegrity.getTableMechanicalIntegrity);
-
-/**
- * TAB: KRI Ductos - Reducción costo del riesgo
- * Endpoint (FALTA TERMINAR EL MODEL)
- * @param {string} station_id id de las estaciones. 
- */
-router.route('/getTableAverageCostSeccions').get(riskCostReduction.getTableAverageCostSeccions);
-
-/**
- * Avance obra, faltan datos y tablas!!!!!!!!
- */
-router.route('/getTableProgressWorks').get(progressWorks.getTableProgressWorks);
-
-/**
- * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
- * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' y la gráfica circular 'Número de eventos'
- * @param {string} section_name nombre del ducto. 
- */
-router.route('/getTableManagementIncorrectOp').get(managementIncorrectOp.getTableManagementIncorrectOp);
-
-/**
- * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
- * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' relacionada con las fechas del evento.
- * @param {string} section_name nombre del ducto. 
- * @param {string} date Fecha del evento. 
- */
-router.route('/getTableManagementIncorrectOpGroupByDate').get(managementIncorrectOp.getTableManagementIncorrectOpGroupByDate);
-
-/**
- * TAB: KPI Ductos - Gestión plan de mantenimiento.
- * Endpoint que retona la data para la tabla 'Avance de ejecución vs programación'. 
- * @param {string} year Año a filtrar. 
- */
-router.route('/getTableExecutionVsScheduling').get(maintenancePlanManagement.getTableExecutionVsScheduling);
-
-/**
- * TAB: KPI Ductos - Gestión plan de mantenimiento.
- * Endpoint que retorna el porcentaje máximo de la obra civil ejecutada, el máximo programado y el avance de la compañia. 
- * @param {string} year Año a filtrar.
- */
-router.route('/getMaxExecutionShedulingProgress').get(maintenancePlanManagement.getMaxExecutionShedulingProgress);
-
-/**
- * TAB: KPI Ductos - Efectividad de monitoreos
- * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos' y el valor de la efectividad total
- * @param {string} sector Sector a filtrar.
- */
-router.route('/getTableEffectiveMonitoring').get(effectiveMonitoring.getTableEffectiveMonitoring);
-
-/**
- * TAB: KPI Ductos - Efectividad de monitoreos
- * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos vs Costo monitoreos'
- */
-router.route('/getTableMaterializedVsMonitoring').get(effectiveMonitoring.getTableMaterializedVsMonitoring);
 
 /**
  * TAB: KPI - Cumplimiento plan anual de integridad.
@@ -263,5 +201,127 @@ router.route('/getTableRiskLevelPipelines').get(riskLevel.getTableRiskLevelPipel
  * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableManagementFindingsPri').get(managementFindingsPri.getTableManagementFindingsPri);
+
+/**
+ * TAB: KPI Ductos - Gestión plan de mantenimiento.
+ * Endpoint que retona la data para la tabla 'Avance de ejecución vs programación'. 
+ * @param {string} year Año a filtrar. 
+ */
+router.route('/getTableExecutionVsScheduling').get(maintenancePlanManagement.getTableExecutionVsScheduling);
+
+/**
+ * TAB: KPI Ductos - Gestión plan de mantenimiento.
+ * Endpoint que retorna el porcentaje máximo de la obra civil ejecutada, el máximo programado y el avance de la compañia. 
+ * @param {string} year Año a filtrar.
+ */
+router.route('/getMaxExecutionShedulingProgress').get(maintenancePlanManagement.getMaxExecutionShedulingProgress);
+
+/**
+ * TAB: KPI Ductos - Gestión de actividades rutinarias
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab ya anteriormente mencionado.
+ */
+router.route('/getDataManagementRoutineActivities').get(managementRoutineActivities.getDataManagementRoutineActivities);
+
+/**
+ * KPI Ductos - Gestión de actividades basadas en condición
+ * Actualmente las consultas no retornan data. Esto se evidencia en el powerBI suministrado.
+ */
+
+/**
+ * TAB: KPI Ductos - Efectividad de monitoreos
+ * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos' y el valor de la efectividad total
+ * @param {string} sector Sector a filtrar.
+ */
+router.route('/getTableEffectiveMonitoring').get(effectiveMonitoring.getTableEffectiveMonitoring);
+ 
+/**
+ * TAB: KPI Ductos - Efectividad de monitoreos
+ * Endpoint que retorna la data para la tabla 'Efectividad de monitoreos vs Costo monitoreos'
+ * @param {string} sector Sector a filtrar.
+ */
+router.route('/getTableMaterializedVsMonitoring').get(effectiveMonitoring.getTableMaterializedVsMonitoring);
+
+/**
+ * TAB: KPI Ductos - Gestión de avisos
+ * Endpoint que retorna la data para la tabla 'Gestión de avisos', el porcentaje de 'Gestión de avisos' y
+ * la data para la gráfica 'Costos materializados vs Costo Monitoreos'.
+ */
+router.route('/getTableNoticesManagement').get(noticesManagement.getTableNoticesManagement);
+
+/**
+ * KPI Ductos - Disponibilidad para bombeo
+ * Actualmente no abre el tab y por ende no se ven o no hay gráficas respectivas al tab.
+ */
+
+/**
+ * TAB: KRI Ductos - Mitigación del riesgo.
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado.
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableRiskMitigation').get(riskMitigation.getTableRiskMitigation);
+
+/**
+ * TAB: KRI Ductos - Ilicitas
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Exceptuando el porcentaje y el recuadro ilicitas identificadas)
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableIlicitasBySection').get(ilicitasBySection.getTableIlicitasBySection);
+
+/**
+ * TAB: KRI Ductos - Gestión de integridad mecánica.
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (Validar el campo SLEEVE_SV de la tabla KRI3_SLEEVE_SV)
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableMechanicalIntegrityManagement').get(mechanicalIntegrityManagement.getTableMechanicalIntegrityManagement);
+
+/**
+ * TAB: KRI Ductos - Reducción costo del riesgo
+ * Endpoint que retorna la data para todas las gráficas respectivas al tab anteriormente mencionado. (el porcentage total varia porque se calcula con el total de todos los registros)
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableAverageCostSeccions').get(riskCostReduction.getTableAverageCostSeccions);
+
+/**
+ * TAB: KRI Ductos - Riesgo en escenario de desastre
+ * Endpoint que retorna la data para la tabla 'Riesgo en escenarios de desastre' y el porcentaje total respectivo.
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableDisasterRisk').get(disasterRisk.getTableDisasterRisk);
+
+/**
+ * TAB: KRI Ductos - Riesgo en escenario de desastre
+ * Endpoint que retorna la data para la tabla 'Riesgo en escenarios de desastre' y el porcentaje total respectivo.
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTablePercentageDisasterRisk').get(disasterRisk.getTablePercentageDisasterRisk);
+
+/**
+ * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
+ * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' y la gráfica circular 'Número de eventos'
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTableManagementIncorrectOp').get(managementIncorrectOp.getTableManagementIncorrectOp);
+
+/**
+ * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
+ * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' relacionada con las fechas del evento.
+ * @param {string} section_name nombre del ducto. 
+ * @param {string} date Fecha del evento. 
+ */
+router.route('/getTableManagementIncorrectOpGroupByDate').get(managementIncorrectOp.getTableManagementIncorrectOpGroupByDate);
 
 export default router;

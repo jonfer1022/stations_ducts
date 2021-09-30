@@ -2,7 +2,7 @@ import db from "../config/database";
 
 class effectiveMonitoringModel {
 
-  static async getTableEffectiveMonitoringDB(sector: any): Promise<any> {
+  static async getTableEffectiveMonitoringDB(sector: string | undefined): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
         const conn = await db.connect();
@@ -23,7 +23,7 @@ class effectiveMonitoringModel {
             GROUP BY kicfe.Sector
           ) as _kicfe ON _kicfe.Sector = kii.Sector
           WHERE kii.Sector ${sector ? `= '${sector}'`: "IS NOT NULL"} 
-          GROUP BY kii.Sector, _kicfe.suma_costo_materializado_cli, _kicfe.suma_costo_monitore_cli
+          GROUP BY kii.Sector, _kicfe.suma_costo_materializado_cli, _kicfe.suma_costo_monitoreo_cli
         `;
         const result = await conn.query(query);
         resolve(result.recordset);
@@ -34,7 +34,7 @@ class effectiveMonitoringModel {
     })
   }
   
-  static async getTableMaterializedVsMonitoringDB(): Promise<any> {
+  static async getTableMaterializedVsMonitoringDB(sector: string | undefined): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
         const conn = await db.connect();
@@ -53,6 +53,7 @@ class effectiveMonitoringModel {
             FROM [KPI4_Indicador Clima_Fzas Ext] kicfe
             GROUP BY kicfe.[Tipo de Afectación] 
           ) as _kicfe ON _kicfe.typeAffectation = kii.[Tipo de Afectación]
+          WHERE kii.Sector ${sector ? `= '${sector}'`: "IS NOT NULL"} 
           GROUP BY kii.[Tipo de Afectación], _kicfe.suma_costo_monitoreo_cli
           ORDER BY "materializedCostInterference" DESC
         `;

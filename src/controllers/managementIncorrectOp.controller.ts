@@ -4,11 +4,18 @@ import managementIncorrectOpModel from "../models/managementIncorretOp.model";
 class managementIncorrectOpController {
 
   static async getTableManagementIncorrectOpCont({ 
-    section_name
+    ducts_id,
+    sector,
+    segment
   } : ParsedQs): Promise<object> {
     return new Promise( async (resolve, reject) => {
       try {
-        const res = await managementIncorrectOpModel.getTableManagementIncorrectOpDB(section_name)
+        const res = await managementIncorrectOpModel.getTableManagementIncorrectOpDB(
+          ducts_id?.toString(),
+          sector?.toString(),
+          segment?.toString()
+        );
+
         resolve(res);
       } catch (error) {
         console.error("An error ocurred getTableManagementIncorrectOpCont: ",error);
