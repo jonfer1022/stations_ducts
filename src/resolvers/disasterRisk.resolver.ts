@@ -13,6 +13,17 @@ const getTableDisasterRisk = async (req: Request, res: Response): Promise<Respon
   }
 }
 
+const getTablePercentageDisasterRisk = async (req: Request, res: Response): Promise<Response | void> => {
+  try {
+    const result = await disasterRiskController.getTablePercentageDisasterRiskCont(req.query);
+    res.status(OK).json(result)
+  } catch (error) {
+    console.error("An error ocurred getTablePercentageDisasterRisk: ",error);
+    res.status(EXPECTATION_FAILED).json({ message: "Error, ocurrio un problema en la solicitud" });
+  }
+}
+
 export default {
-  getTableDisasterRisk
+  getTableDisasterRisk,
+  getTablePercentageDisasterRisk
 }

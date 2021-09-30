@@ -2,9 +2,7 @@ import { Router } from "express";
 import stations from "./resolvers/stations.resolver";
 import ducts from "./resolvers/ducts.resolver";
 import reassessment from "./resolvers/reassessment.resolver";
-import progressWorks from "./resolvers/progressWorks.resolver";
 import unmanagedNotices from "./resolvers/unmanagedNotices.resolver";
-import mechanicalIntegrity from "./resolvers/mechanicalIntegrity.resolver";
 import riskCostReduction from "./resolvers/riskCostReduction.resolver";
 import managementIncorrectOp from "./resolvers/managementIncorrectOp.resolver";
 import maintenancePlanManagement from "./resolvers/maintenancePlanManagement.resolver";
@@ -62,27 +60,10 @@ router.route('/getFilterDisasterScenarios').get(ducts.getFilterDisasterScenarios
 router.route('/getTableReassessment').get(reassessment.getTableReassessment);
 
 /**
- * Endpoint que retorna la data para el filtro estaciones utilizado para filtrar en tab 'Avisos sin gestionar'
- */
-router.route('/getFilterStationsUnmanagedNotices').get(unmanagedNotices.getFilterStationsUnmanagedNotices);
-
-/**
  * Endpoint que retorna la data para la tabla 'Avisos sin gestionar'
  * @param {string} station_id id de las estaciones. 
  */
 router.route('/getTableUnmanagedNotices').get(unmanagedNotices.getTableUnmanagedNotices);
-
-/**
- * Endpoint que retorna la data para la tabla y la gráfica de barras 'Gestión de integridad mecánica' ¡AUN FALTAN UNOS DATOS!! tabla dent_Strain_Remaining
- * @param {string} station_id id de las estaciones.
- * NOTA: Por ende hace falta la gráfica del porcentaje (La circular y las de los puntos.) tab KRI DUCTOS 
- */
-router.route('/getTableMechanicalIntegrity').get(mechanicalIntegrity.getTableMechanicalIntegrity);
-
-/**
- * Avance obra, faltan datos y tablas!!!!!!!!
- */
-router.route('/getTableProgressWorks').get(progressWorks.getTableProgressWorks);
 
 /**
  * TAB: KPI - Cumplimiento plan anual de integridad.
@@ -242,7 +223,8 @@ router.route('/getMaxExecutionShedulingProgress').get(maintenancePlanManagement.
 router.route('/getDataManagementRoutineActivities').get(managementRoutineActivities.getDataManagementRoutineActivities);
 
 /**
- * NO SE PINTAN LAS GRÁFICAS - Gestión de actividades basadas en condición
+ * KPI Ductos - Gestión de actividades basadas en condición
+ * Actualmente las consultas no retornan data. Esto se evidencia en el powerBI suministrado.
  */
 
 /**
@@ -267,7 +249,8 @@ router.route('/getTableMaterializedVsMonitoring').get(effectiveMonitoring.getTab
 router.route('/getTableNoticesManagement').get(noticesManagement.getTableNoticesManagement);
 
 /**
- * NO SE PINTAN LAS GRÁFICAS - Disponibilidad para bombeo
+ * KPI Ductos - Disponibilidad para bombeo
+ * Actualmente no abre el tab y por ende no se ven o no hay gráficas respectivas al tab.
  */
 
 /**
@@ -315,12 +298,21 @@ router.route('/getTableAverageCostSeccions').get(riskCostReduction.getTableAvera
  */
 router.route('/getTableDisasterRisk').get(disasterRisk.getTableDisasterRisk);
 
-/* FALTA ENDPOINT PARA DE KRI Ductos LA TABLA INFERIOR  */
+/**
+ * TAB: KRI Ductos - Riesgo en escenario de desastre
+ * Endpoint que retorna la data para la tabla 'Riesgo en escenarios de desastre' y el porcentaje total respectivo.
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
+ */
+router.route('/getTablePercentageDisasterRisk').get(disasterRisk.getTablePercentageDisasterRisk);
 
 /**
  * TAB: KRI Ductos - sección Gestión de operaciones incorrectas
  * Endpoint que retorna la data para la tabla 'Gestión de operaciones incorrectas' y la gráfica circular 'Número de eventos'
- * @param {string} section_name nombre del ducto. 
+ * @param {string} ducts_id id de la estación a filtrar.
+ * @param {string} sector nombre del sector a filtrar.
+ * @param {string} segment id del segmento a filtrar.
  */
 router.route('/getTableManagementIncorrectOp').get(managementIncorrectOp.getTableManagementIncorrectOp);
 

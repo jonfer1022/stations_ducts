@@ -2,7 +2,11 @@ import db from "../config/database";
 
 class managementIncorrectOpModel {
 
-  static async getTableManagementIncorrectOpDB(section_name: any): Promise<any> {
+  static async getTableManagementIncorrectOpDB(
+    ducts_id: string | undefined,
+    sector: string | undefined,
+    segment: string | undefined
+  ): Promise<any> {
     return new Promise( async (resolve, reject) => {
       try {
         const conn = await db.connect();
@@ -95,7 +99,9 @@ class managementIncorrectOpModel {
             WHERE _keo5.Evento = 'Activación Valvula Seguridad'
             GROUP BY d5.ROUTE_NAME
           ) as keo5 on keo5.ducts_name = d.ROUTE_NAME
-          WHERE d.ROUTE_NAME ${section_name ? `= '${section_name}'`: "IS NOT NULL"} 
+          WHERE d.Ductos_id ${ducts_id ? `= '${ducts_id}'`: "IS NOT NULL"}
+            AND d.SECTOR ${sector ? `= '${sector}'`: "IS NOT NULL"}
+            AND d.SEGMENTO ${segment ? `= '${segment}'`: "IS NOT NULL"} 
           GROUP BY d.ROUTE_NAME, keo1.amout_event1, keo2.amout_event2, keo3.amout_event3, keo4.amout_eventMAOP, keo5.amout_eventAVS
         `;
         const result = await conn.query(query);
